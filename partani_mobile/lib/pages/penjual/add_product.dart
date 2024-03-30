@@ -68,19 +68,6 @@ class _AddProductPageState extends State<AddProductPage> {
             ),
             SizedBox(height: 12.0),
             TextFormField(
-              controller: _descriptionController,
-              decoration: InputDecoration(
-                labelText: 'Description',
-                prefixIcon: Icon(Icons.description),
-                border: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(10.0),
-                  borderSide: BorderSide(color: Color(0xFF64AA54)),
-                ),
-              ),
-              maxLines: null,
-            ),
-            SizedBox(height: 12.0),
-            TextFormField(
               controller: _satuanController,
               decoration: InputDecoration(
                 labelText: 'satuan',
@@ -116,6 +103,19 @@ class _AddProductPageState extends State<AddProductPage> {
                 ),
               ),
               keyboardType: TextInputType.number,
+            ),
+            SizedBox(height: 12.0),
+            TextField(
+              controller: _descriptionController,
+              decoration: InputDecoration(
+                labelText: 'Description',
+                // prefixIcon: Icon(Icons.description),
+                border: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(10.0),
+                  borderSide: BorderSide(color: Color(0xFF64AA54)),
+                ),
+              ),
+              maxLines: 5, // Mengatur jumlah baris maksimum
             ),
             SizedBox(height: 12.0),
             GestureDetector(

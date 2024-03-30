@@ -2,7 +2,7 @@ const bcrypt = require('bcrypt');
 const express = require('express');
 const bodyParser = require('body-parser');
 const mysql = require('mysql');
-
+const mongoose = require('mongoose');
 const app = express();
 const port = 3001;
 
@@ -112,28 +112,52 @@ app.post('/register', async (req, res) => {
 
  
   // Endpoint untuk membuat barang baru
-  app.post('/createbarang', async (req, res) => {
+  const BarangSchema = new mongoose.Schema({
+    id_barang: { type: String, required: true },
+    id_pembuat: { type: String, required: true },
+    nama_barang: { type: String, required: true },
+    harga: { type: Number, required: true },
+    gambar: { type: String, required: true },
+    deskripsi: { type: String, required: true },
+    satuan: { type: String, required: true },
+    minimal_pemesanan: { type: Number, required: true },
+    stok: { type: Number, required: true }
+  });
+  
+  // Membuat model Barang dari schema
+  const Barang = mongoose.model('Barang', BarangSchema);
+  
+  // Middleware
+  app.use(bodyParser.json());
+  app.use(bodyParser.urlencoded({ extended: true }));
+  
+  // Route untuk membuat barang baru
+  app.post('/api/barang', async (req, res) => {
     try {
-      // Ambil data dari request body
-      const { id_pembuat, nama_barang, harga, satuan, minimum_pesanan, stok } = req.body;
-
-      // Buat data barang baru
-      const barang = await barang.create({
+      const { id_barang, id_pembuat, nama_barang, harga, gambar, deskripsi, satuan, minimal_pemesanan, stok } = req.body;
+  
+      // Membuat objek barang baru
+      const newBarang = new Barang({
+        id_barang,
         id_pembuat,
         nama_barang,
         harga,
+        gambar,
+        deskripsi,
         satuan,
-        minimum_pesanan,
+        minimal_pemesanan,
         stok
       });
-
-      res.status(201).json(barang);
+  
+      // Menyimpan barang ke database
+      const savedBarang = await newBarang.save();
+      res.status(201).json(savedBarang);
     } catch (error) {
-      console.error(error);
-      res.status(500).json({ message: 'Internal server error' });
+      res.status(400).json({ error: error.message });
     }
   });
-
+  
+  
   
 
 app.listen(port, () => {

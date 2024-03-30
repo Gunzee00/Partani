@@ -108,7 +108,7 @@ class ManageProductPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Manage Product'),
+        title: Text('Manajemen Produk'),
       ),
       body: Center(),
       floatingActionButton: FloatingActionButton(
